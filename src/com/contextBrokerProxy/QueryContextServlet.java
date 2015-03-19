@@ -1,62 +1,92 @@
 package com.contextBrokerProxy;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class QueryContextServlet extends HttpServlet {
-	/**
-	 * 
-	 */
 	
-	
-	private static final long serialVersionUID = 1L;
-	private static final String URL = "http://130.211.103.49:1026/NGSI10/queryContext";
+	public void doPost(HttpServletRequest req, HttpServletResponse res) {
+		
+		// Allow  JavaScript XHR request.
+		res.addHeader(AC_ALLOW_ORIGIN, "*");
+		res.addHeader(CONTENT_TYPE, APPLICATION_JSON);
 
-	public void doPost(HttpServletRequest req, HttpServletResponse res)
-			throws ServletException, IOException {
-		// Allow javascript XHRR, cross domain query
-		res.addHeader("Access-Control-Allow-Origin", "*");
-		res.addHeader("Content-Type", "text/xml");
-
-		// Read JSON from request
-		StringBuffer jb = new StringBuffer();
+		// Read JSON from request.
+		StringBuffer buffer = new StringBuffer();
 		String line = null;
 		try {
 			BufferedReader reader = req.getReader();
-			while ((line = reader.readLine()) != null)
-				jb.append(line);
-		} catch (Exception e) { /* report an error */
+			while ((line = reader.readLine()) != null) {
+				buffer.append(line);
+			}
+		} catch (Exception e) {
+			// TODO: Report the error.
+			e.printStackTrace();
 		}
-		// Retourner le fichier json, pour test
-		// res.getWriter().append(jb.toString());
+
+		
 		try {
-			URL obj = new URL(URL);
-			HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
-			conn.setRequestProperty("Content-Type", "application/json");
-			conn.setDoOutput(true);
-			conn.setRequestMethod("POST");
-			OutputStreamWriter out = new OutputStreamWriter(
-					conn.getOutputStream());
-			out.write(jb.toString());
-			out.close();
-			BufferedReader in = new BufferedReader(new InputStreamReader(
-					conn.getInputStream()));
+			// Get the target Context URL.
+			URL url = new URL(URL_QUERY_CONTEXT);
+			
+			// Set a connection.
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestProperty(CONTENT_TYPE, APPLICATION_JSON);
+			connection.setDoOutput(true);
+			connection.setRequestMethod("POST");
+			
+			// Send the request data.
+			OutputStreamWriter outStream = new OutputStreamWriter(
+					connection.getOutputStream());
+			outStream.write(buffer.toString());
+			outStream.close();
+			
+			// Read the response.
+			BufferedReader inStream = new BufferedReader(new InputStreamReader(
+					connection.getInputStream()));
+
+			// Return the result as XML.
 			String inputLine;
-			while ((inputLine = in.readLine()) != null)
-				//Return XML Result
+			while ((inputLine = inStream.readLine()) != null){
 				res.getWriter().append(inputLine);
-			in.close();
+			}
+			inStream.close();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Constant: {@value #APPLICATION_JSON}
+	 */
+	private static final String APPLICATION_JSON = "application/json";
+	
+	/**
+	 * Constant : {@value #AC_ALLOW_ORIGIN}
+	 */
+	private static final String AC_ALLOW_ORIGIN = "Access-Control-Allow-Origin";
+	
+	/**
+	 * Constant : {@value #CONTENT_TYPE}
+	 */
+	private static final String CONTENT_TYPE = "Content-Type";
+	
+	/**
+	 * URL for request the queryContext.
+	 */
+	private static final String URL_QUERY_CONTEXT = "http://193.52.45.159:1026/NGSI10/queryContext";
+	
+	/**
+	 * Default serial ID.
+	 */
+	private static final long serialVersionUID = 1L;
+	
 }
