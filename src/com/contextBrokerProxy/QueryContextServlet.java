@@ -21,6 +21,7 @@ public class QueryContextServlet extends HttpServlet {
 		
 		// Allow  JavaScript XHR request.
 		res.addHeader(AC_ALLOW_ORIGIN, "*");
+		res.addHeader("Accept", APPLICATION_JSON);
 		res.addHeader(CONTENT_TYPE, APPLICATION_JSON);
 		
 		try {
@@ -59,7 +60,8 @@ public class QueryContextServlet extends HttpServlet {
 			// Set a connection.
 			LOGGER.log(Level.INFO, "Connection to Context Broker...");
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestProperty(CONTENT_TYPE, APPLICATION_JSON);
+			connection.addRequestProperty("Accept", "application/json");
+			connection.addRequestProperty(CONTENT_TYPE, APPLICATION_JSON);
 			connection.setDoOutput(true);
 			connection.setRequestMethod("POST");
 			
@@ -77,6 +79,7 @@ public class QueryContextServlet extends HttpServlet {
 
 			// Allow  JavaScript XHR request.
 			res.addHeader(AC_ALLOW_ORIGIN, "*");
+			res.addHeader("Accept", APPLICATION_JSON);
 			res.addHeader(CONTENT_TYPE, APPLICATION_JSON);
 			
 			// Return the result as XML.
@@ -123,12 +126,7 @@ public class QueryContextServlet extends HttpServlet {
 	/**
 	 * Context Broker URL on Orion.
 	 */
-//	private static final String URL_QUERY_CONTEXT = "http://193.52.45.159:1026/NGSI10/queryContext";
-	
-	/**
-	 * Context Broker URL on Google Compute Engine.
-	 */
-	private static final String URL_QUERY_CONTEXT = "http://130.211.103.49:1026/NGSI10/queryContext";
+	private static final String URL_QUERY_CONTEXT = "http://193.52.45.159:1026/NGSI10/queryContext";
 	
 	/**
 	 * Default serial ID.
