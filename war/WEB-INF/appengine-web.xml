@@ -7,19 +7,6 @@
 		To allow App Engine to send multiple requests in parallel specify: -->
 	<threadsafe>true</threadsafe>
 
-	<!-- Configure serving/caching of GWT files -->
-<!-- 	<static-files> -->
-<!-- 		<include path="**" /> -->
-<!-- 		<include path="**.nocache.*" expiration="0s" /> -->
-<!-- 		<include path="**.cache.*" expiration="365d" /> -->
-<!-- 		<exclude path="**.gwt.rpc" /> -->
-<!-- 	</static-files> -->
-
-	<!--Tracking Client Connections and Disconnections -->
-<!-- 	<inbound-services> -->
-<!-- 		<service>channel_presence</service> -->
-<!-- 	</inbound-services> -->
-
 	<!-- Configure java.util.logging -->
 	<system-properties>
 		<property name="java.util.logging.config.file" value="WEB-INF/logging.properties" />
