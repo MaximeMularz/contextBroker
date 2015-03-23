@@ -28,4 +28,10 @@ public class Constant {
 	public static final String URL_NGSI10_QUERYCONTEXT =
 			"http://%s:1026/NGSI10/queryContext";
 	
+	/**
+	 * URL format to make updateContext.
+	 */
+	public static final String URL_NGSI10_UPDATECONTEXT =
+			"http://%s/NGSI10/updateContext";
+	
 }
