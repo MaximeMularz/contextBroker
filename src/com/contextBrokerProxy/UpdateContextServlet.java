@@ -17,7 +17,10 @@ public class UpdateContextServlet extends HttpServlet {
 	public void doPost(HttpServletRequest req, HttpServletResponse res) {
 		
 		String targetIp = req.getParameter("targetIp");
-		// TODO: Check the target IP format.
+		if (Validator.isNotValidIp(targetIp)) {
+			// TODO: Send error to the client.
+			return;
+		}
 		
 		// Read JSON from request
 		StringBuffer buffer = new StringBuffer();

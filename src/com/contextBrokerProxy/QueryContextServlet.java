@@ -34,7 +34,10 @@ public class QueryContextServlet extends HttpServlet {
 		LOGGER.log(Level.INFO, "Request received: " + req.toString());
 		
 		String targetIp = req.getParameter("targetIp");
-		// TODO: Check the target IP format.
+		if (Validator.isNotValidIp(targetIp)) {
+			// TODO: Send error to the client.
+			return;
+		}
 		
 		// Read JSON from request.
 		StringBuffer buffer = new StringBuffer();
