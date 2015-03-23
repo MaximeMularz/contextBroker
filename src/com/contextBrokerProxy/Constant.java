@@ -32,6 +32,6 @@ public class Constant {
 	 * URL format to make updateContext.
 	 */
 	public static final String URL_NGSI10_UPDATECONTEXT =
-			"http://%s/NGSI10/updateContext";
+			"http://%s:1026/NGSI10/updateContext";
 	
 }
